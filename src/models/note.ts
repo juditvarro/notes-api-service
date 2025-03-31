@@ -2,9 +2,10 @@ import mongoose from 'mongoose';
 
 const NoteSchema = new mongoose.Schema({
   sessionId: { type: String, required: true },
-  userName: { type: String, required: true },
+  updatedAt: { type: Date, required: true },
   title: { type: String, required: true },
   content: { type: String, required: false },
+  important: { type: Boolean, required: false },
 });
 
 export const NoteModel = mongoose.model('Note', NoteSchema);

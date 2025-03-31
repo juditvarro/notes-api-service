@@ -4,11 +4,11 @@ import { connectDb } from './config/db.js';
 import { httpLogger } from './middlewares/httpLogger.js';
 import { errorHandler } from './middlewares/error.js';
 
-const mongoUrl = process.env.MONGO_URL;
-if (!mongoUrl) {
-  throw new Error(`Environment variable 'MONGO_URL' is not defined`);
+const dbUrl = process.env.DB_URL;
+if (!dbUrl) {
+  throw new Error(`Database is not configured`);
 }
-await connectDb(mongoUrl);
+await connectDb(dbUrl);
 
 const app = express();
 

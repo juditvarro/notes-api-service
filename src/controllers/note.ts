@@ -26,7 +26,7 @@ export const listNotes = async (
 
     const notes = await getNotesBySessionId(req.params.sessionId);
 
-    if (!notes) {
+    if (!notes.length) {
       throw new NotFoundError(
         `Cannot find notes with session ID '${req.params.sessionId}'`,
         404,
@@ -80,12 +80,13 @@ export const addNote = async (
     validateSchema(NoteSessionIdSchema, req.params.sessionId, 'sessionId');
     validateSchema(NoteSchema, req.body, 'body');
 
-    const { userName, title, content } = req.body;
+    const { title, content, important } = req.body;
     const note = await createNote({
       sessionId: req.params.sessionId,
-      userName,
+      updatedAt: new Date(),
       title,
       content,
+      important,
     });
     res.status(201).json(note);
   } catch (err) {
@@ -107,12 +108,13 @@ export const updateNote = async (
     validateSchema(NoteIdSchema, req.params.id, 'id');
     validateSchema(PartialNoteSchema, req.body, 'body');
 
-    const { userName, title, content } = req.body;
+    const { title, content, important } = req.body;
     await updateNoteById(req.params.id, {
       sessionId: req.params.sessionId,
-      userName,
+      updatedAt: new Date(),
       title,
       content,
+      important,
     });
     res.status(204).end();
   } catch (err) {
